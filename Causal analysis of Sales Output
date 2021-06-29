@@ -1,0 +1,234 @@
+
+# Empty dataset: Always a good idea
+rm(list=ls())
+
+# Adding a few packages
+install.packages("car")
+library(car)
+
+# load the dataset
+
+load("Advertising.RData")
+
+
+regression1 = lm(Sales ~ TV, data = mydata)
+summary(regression1)
+
+
+regression2 = lm(Sales ~ TV + Newspaper, data = mydata)
+summary(regression2)
+
+
+regression3 = lm(Sales ~ Radio, data = mydata)
+summary(regression3)
+
+
+regression4 = lm(Sales ~ Radio + TV, data=mydata)
+summary(regression4)
+
+
+install.packages("stargazer") # For easier visualization of regression output
+library(stargazer)
+
+
+stargazer(regression1, regression2, type = "text")
+
+stargazer(regression3, regression4, type = "text")
+
+
+
+iv1 = lm(Newspaper ~ TV, data = mydata)
+summary(iv1)
+
+
+iv2 = lm(TV ~ Radio, data = mydata)
+summary(iv2)
+
+
+------------------------------------------------------
+
+
+Console Output:
+
+> load("Advertising.RData")
+> regression1 = lm(Sales ~ TV, data = mydata)
+> summary(regression1)
+
+Call:
+lm(formula = Sales ~ TV, data = mydata)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.3860 -1.9545 -0.1913  2.0671  7.2124 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 7.032594   0.457843   15.36   <2e-16 ***
+TV          0.047537   0.002691   17.67   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 3.259 on 198 degrees of freedom
+Multiple R-squared:  0.6119,	Adjusted R-squared:  0.6099 
+F-statistic: 312.1 on 1 and 198 DF,  p-value: < 2.2e-16
+
+> regression2 = lm(Sales ~ TV + Newspaper, data = mydata)
+> summary(regression2)
+
+Call:
+lm(formula = Sales ~ TV + Newspaper, data = mydata)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.6231 -1.7346 -0.0948  1.8926  8.4512 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 5.774948   0.525338  10.993  < 2e-16 ***
+TV          0.046901   0.002581  18.173  < 2e-16 ***
+Newspaper   0.044219   0.010174   4.346 2.22e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 3.121 on 197 degrees of freedom
+Multiple R-squared:  0.6458,	Adjusted R-squared:  0.6422 
+F-statistic: 179.6 on 2 and 197 DF,  p-value: < 2.2e-16
+
+> regression3 = lm(Sales ~ Radio, data = mydata)
+> summary(regression3)
+
+Call:
+lm(formula = Sales ~ Radio, data = mydata)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-15.7305  -2.1324   0.7707   2.7775   8.1810 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  9.31164    0.56290  16.542   <2e-16 ***
+Radio        0.20250    0.02041   9.921   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 4.275 on 198 degrees of freedom
+Multiple R-squared:  0.332,	Adjusted R-squared:  0.3287 
+F-statistic: 98.42 on 1 and 198 DF,  p-value: < 2.2e-16
+
+> regression4 = lm(Sales ~ Radio + TV, data=mydata)
+> summary(regression4)
+
+Call:
+lm(formula = Sales ~ Radio + TV, data = mydata)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.7977 -0.8752  0.2422  1.1708  2.8328 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2.92110    0.29449   9.919   <2e-16 ***
+Radio        0.18799    0.00804  23.382   <2e-16 ***
+TV           0.04575    0.00139  32.909   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.681 on 197 degrees of freedom
+Multiple R-squared:  0.8972,	Adjusted R-squared:  0.8962 
+F-statistic: 859.6 on 2 and 197 DF,  p-value: < 2.2e-16
+
+> library(stargazer)
+> stargazer(regression1, regression2, type = "text")
+
+=====================================================================
+                                   Dependent variable:               
+                    -------------------------------------------------
+                                          Sales                      
+                              (1)                      (2)           
+---------------------------------------------------------------------
+TV                          0.048***                 0.047***        
+                            (0.003)                  (0.003)         
+                                                                     
+Newspaper                                            0.044***        
+                                                     (0.010)         
+                                                                     
+Constant                    7.033***                 5.775***        
+                            (0.458)                  (0.525)         
+                                                                     
+---------------------------------------------------------------------
+Observations                  200                      200           
+R2                           0.612                    0.646          
+Adjusted R2                  0.610                    0.642          
+Residual Std. Error     3.259 (df = 198)         3.121 (df = 197)    
+F Statistic         312.145*** (df = 1; 198) 179.619*** (df = 2; 197)
+=====================================================================
+Note:                                     *p<0.1; **p<0.05; ***p<0.01
+> stargazer(regression3, regression4, type = "text")
+
+====================================================================
+                                  Dependent variable:               
+                    ------------------------------------------------
+                                         Sales                      
+                              (1)                     (2)           
+--------------------------------------------------------------------
+Radio                      0.202***                 0.188***        
+                            (0.020)                 (0.008)         
+                                                                    
+TV                                                  0.046***        
+                                                    (0.001)         
+                                                                    
+Constant                   9.312***                 2.921***        
+                            (0.563)                 (0.294)         
+                                                                    
+--------------------------------------------------------------------
+Observations                  200                     200           
+R2                           0.332                   0.897          
+Adjusted R2                  0.329                   0.896          
+Residual Std. Error    4.275 (df = 198)         1.681 (df = 197)    
+F Statistic         98.422*** (df = 1; 198) 859.618*** (df = 2; 197)
+====================================================================
+Note:                                    *p<0.1; **p<0.05; ***p<0.01
+
+
+> iv1 = lm(Newspaper ~ TV, data = mydata)
+> summary(iv1)
+
+Call:
+lm(formula = Newspaper ~ TV, data = mydata)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-31.958 -17.936  -4.928  14.530  84.585 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 28.44102    3.06270   9.286   <2e-16 ***
+TV           0.01437    0.01800   0.798    0.426    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 21.8 on 198 degrees of freedom
+Multiple R-squared:  0.003209,	Adjusted R-squared:  -0.001825 
+F-statistic: 0.6374 on 1 and 198 DF,  p-value: 0.4256
+
+
+> iv2 = lm(TV ~ Radio, data = mydata)
+> summary(iv2)
+
+Call:
+lm(formula = TV ~ Radio, data = mydata)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-151.520  -74.457    0.042   69.623  149.731 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 139.6692    11.3163  12.342   <2e-16 ***
+Radio         0.3169     0.4103   0.772    0.441    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 85.94 on 198 degrees of freedom
+Multiple R-squared:  0.003004,	Adjusted R-squared:  -0.002031 
+F-statistic: 0.5966 on 1 and 198 DF,  p-value: 0.4408
